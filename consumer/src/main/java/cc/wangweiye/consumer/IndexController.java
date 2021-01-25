@@ -1,5 +1,6 @@
 package cc.wangweiye.consumer;
 
+import cc.wangweiye.user.feign.IFeignUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,10 @@ public class IndexController {
     @Autowired
     private HelloFeignService feignService;
 
+    @Qualifier("cc.wangweiye.user.feign.IFeignUser")
+    @Autowired
+    private IFeignUser iFeignUser;
+
     @Value("${a}")
     private String aValue;
 
@@ -24,5 +29,10 @@ public class IndexController {
     @RequestMapping(value = "/getConfig", method = RequestMethod.GET)
     public String getConfig(String name) {
         return aValue;
+    }
+
+    @RequestMapping(value = "/hello1", method = RequestMethod.GET)
+    public String hello1() {
+        return iFeignUser.sayHello();
     }
 }
